@@ -75,4 +75,4 @@ public class MergeSort {
             System.out.println("\nSorted Array:");
             printArray(arr);
         }
-    }
+    }}
