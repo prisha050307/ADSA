@@ -17,7 +17,7 @@ public class HashCode {
         scanner.close();
     }
     
-    // method को class के अंदर, main के बाहर define करें
+    
     public static int getHashValue(String input, int sizeofhash) {
         int sum = 0;
         for (int i = 0; i < input.length(); i++) {       
