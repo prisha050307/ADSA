@@ -1,116 +1,127 @@
 import java.util.Scanner;
-class BinarySearchTree {
-    // Node structure for BST
-    class Node {
-        int key;        // Value of the node
-        Node left, right; // Left and right child references
-        public Node(int item) {
-            key = item;
+
+public class BinarySearchTree
+ {
+
+    // Node class representing each node in the BST
+    class Node 
+    {
+        int key;
+        Node left, right;
+
+        public Node(int value)
+         {
+            key = value;
             left = right = null;
         }
     }
-    Node root; // Root node of the BST
-    // Constructor
-    BinarySearchTree() {
-        root = null;
-    }
-    // Public method to insert a key into the BST
-    void insert(int key) {
-        root = insertRec(root, key);
-    }
-    // Recursive method to insert a new key in BST
-    Node insertRec(Node root, int key) {
-        if (root == null) { // If tree/subtree is empty
-            root = new Node(key);
+
+    Node root;
+
+    // Insert method to add a new node in the BST (recursive)
+    public Node insert(Node root, int value) 
+    {
+        if (root == null)
+         {
+            root = new Node(value);
             return root;
         }
-        if (key < root.key) // Go to left subtree
-            root.left = insertRec(root.left, key);
-        else if (key > root.key) // Go to right subtree
-            root.right = insertRec(root.right, key);
+
+        if (value < root.key) 
+        {
+            root.left = insert(root.left, value);
+        } else if (value > root.key) 
+        {
+            root.right = insert(root.right, value);
+        }
+
         return root;
     }
-    // Public method to search for a key in BST
-    boolean search(int key) {
-        return searchRec(root, key);
+
+    // In-order traversal: Left -> Root -> Right
+    public void inorder(Node root) 
+    {
+        if (root != null) 
+        {
+            inorder(root.left);
+            System.out.print(root.key + " ");
+            inorder(root.right);
+        }
     }
-    // Recursive method to search a key
-    boolean searchRec(Node root, int key) {
-        if (root == null) // Key not found
+
+    // Pre-order traversal: Root -> Left -> Right
+    public void preorder(Node root)
+     {
+        if (root != null) 
+        {
+            System.out.print(root.key + " ");
+            preorder(root.left);
+            preorder(root.right);
+        }
+    }
+
+    // Post-order traversal: Left -> Right -> Root
+    public void postorder(Node root)
+     {
+        if (root != null) 
+        {
+            postorder(root.left);
+            postorder(root.right);
+            System.out.print(root.key + " ");
+        }
+    }
+
+    // Search method to return true if key is found
+    public boolean search(Node root, int key) 
+    {
+        if (root == null)
             return false;
-        if (root.key == key) // Key found
+
+        if (root.key == key)
             return true;
-        if (key < root.key) // Search left
-            return searchRec(root.left, key);
-        else // Search right
-            return searchRec(root.right, key);
-    }
-    // Inorder Traversal (Left -> Root -> Right)
-    void inorder() {
-        inorderRec(root);
-        System.out.println();
-    }
-    void inorderRec(Node root) {
-        if (root != null) {
-            inorderRec(root.left);
-            System.out.print(root.key + " ");
-            inorderRec(root.right);
-        }
-    }
-    // Preorder Traversal (Root -> Left -> Right)
-    void preorder() {
-        preorderRec(root);
-      System.out.println();
-    }
-    void preorderRec(Node root) {
-        if (root != null) {
-            System.out.print(root.key + " ");
-            preorderRec(root.left);
-            preorderRec(root.right);
-        }
-    }
-    // Postorder Traversal (Left -> Right -> Root)
-    void postorder() {
-        postorderRec(root);
-        System.out.println();
-    }
-    void postorderRec(Node root) {
-        if (root != null) {
-            postorderRec(root.left);
-            postorderRec(root.right);
-            System.out.print(root.key + " ");
-        }
-    }
-    // Main method to run the program
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        BinarySearchTree bst = new BinarySearchTree();
-        // Step 1: Get number of elements to insert
-        System.out.print("Enter Number Of Elements To Insert: ");
-        int n = sc.nextInt();
-        // Step 2: Read elements and insert into BST
-        System.out.println("Enter " + n + " Elements:");
-        for (int i = 0; i < n; i++) {
-            int value = sc.nextInt();
-            bst.insert(value);
-        }
-        // Step 3: Display traversals
-        System.out.print("Inorder Traversal   : ");
-        bst.inorder();
-        System.out.print("Preorder Traversal  : ");
-        bst.preorder();
-        System.out.print("Postorder Traversal : ");
-        bst.postorder();
-        // Step 4: Ask for element to search
-        System.out.print("Enter Element To Search: ");
-        int searchKey = sc.nextInt();
-        // Step 5: Display search result
-        if (bst.search(searchKey))
-            System.out.println(searchKey + " Found in BST.");
+
+        if (key < root.key)
+            return search(root.left, key);
         else
-            System.out.println(searchKey + " Not Found in BST.");
-        sc.close();
+            return search(root.right, key);
     }
-}
 
+    // Main method
+    public static void main(String[] args) 
+    {
+        BinarySearchTree bst = new BinarySearchTree();
+        Scanner sc = new Scanner(System.in);
 
+        System.out.print("Enter the number of nodes to insert: ");
+        int n = sc.nextInt();
+
+        System.out.println("Enter " + n + " integers:");
+        for (int i = 0; i < n; i++)
+         {
+            int value = sc.nextInt();
+            bst.root = bst.insert(bst.root, value);
+        }
+
+        System.out.println("\nIn-order Traversal:");
+        bst.inorder(bst.root);
+
+        System.out.println("\nPre-order Traversal:");
+        bst.preorder(bst.root);
+
+        System.out.println("\nPost-order Traversal:");
+        bst.postorder(bst.root);
+
+        System.out.print("\nEnter key to search: ");
+        int key = sc.nextInt(); // Only use Scanner once
+
+        boolean found = bst.search(bst.root, key); //  Correct way to call
+
+        if (found) 
+        {
+            System.out.println(key + " is found in the BST.");
+        } else
+         {
+            System.out.println(key + " is not found in the BST.");
+        }
+
+        sc.close(); // Close scanner
